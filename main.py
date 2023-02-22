@@ -1,15 +1,18 @@
 import sqlite3
 import sys
 
+from UI_main import Ui_MainWindow
+from UI_addEditCoffeeForm import Ui_Form
 from PyQt5 import uic
 from PyQt5.QtWidgets import QMainWindow, QWidget, QTableWidgetItem, QMessageBox, QApplication
 
 
-class Main(QMainWindow):
+class Main(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('main.ui', self)
-        self.connection = sqlite3.connect("coffee.sqlite")
+        # uic.loadUi('main.ui', self)
+        self.setupUi(self)
+        self.connection = sqlite3.connect("data/coffee.sqlite")
         self.PB_update.clicked.connect(self.select_data)
         self.PB_add.clicked.connect(self.add_data)
         self.PB_edit.clicked.connect(self.edit_data)
@@ -49,11 +52,11 @@ class Main(QMainWindow):
         self.connection.commit()
 
 
-class Widget(QWidget):
+class Widget(QWidget, Ui_Form):
     def __init__(self, fx, connection, *args):
         super().__init__()
-        uic.loadUi('addEditCoffeeForm.ui', self)
-        # print(args)
+        # uic.loadUi('addEditCoffeeForm.ui', self)
+        self.setupUi(self)
         self.connection = connection
         if fx == 'Добавить':
             self.PB_Ready.clicked.connect(self.add_data)
